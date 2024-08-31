@@ -41,13 +41,13 @@ function EmployeeForm() {
     phone: "",
     picture: null as File | null, // Update to handle File type
   });
-// myHandleChange
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>)=> {
+  // myHandleChange
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let { id, value } = e.target;
     if (id === "phone") {
-      if(value.match(/[a-zA-Z]/)){
-        value = value.replace(/[a-zA-Z]/g,'')//NOTE: this change letters to empty string
-        alert("Numbers Only")
+      if (value.match(/[a-zA-Z]/)) {
+        value = value.replace(/[a-zA-Z]/g, ""); //NOTE: this change letters to empty string
+        alert("Numbers Only");
       }
       // 11 digits
       const newValue = value.slice(0, 11);
@@ -55,8 +55,7 @@ function EmployeeForm() {
         ...prevData,
         [id]: newValue,
       }));
-    }
-    else {
+    } else {
       setFormData((prevData) => ({
         ...prevData,
         [id]: value,
@@ -85,8 +84,8 @@ function EmployeeForm() {
       alert("Please fill in all required fields.");
       return;
     }
-     // Check if the email contains '@'
-     if (!formData.email.includes('@')) {
+    // Check if the email contains '@'
+    if (!formData.email.includes("@")) {
       alert("Please enter a valid email");
       return;
     }
@@ -111,14 +110,13 @@ function EmployeeForm() {
       data.append("picture", formData.picture);
     }
 
-    axios(
-      {
-        method:"POST",
-        url: "http://localhost:12799/employee/api/insertEmployee",
-        data:data,
-        headers:{"Content-Type": "multipart/form-data",}
-      }
-    ) .then((response) => {
+    axios({
+      method: "POST",
+      url: "http://localhost:12799/employee/api/insertEmployee",
+      data: data,
+      headers: { "Content-Type": "multipart/form-data" },
+    })
+      .then((response) => {
         alert(response.data.message);
         setFormData({
           first_name: "",
@@ -128,10 +126,10 @@ function EmployeeForm() {
           phone: "",
           picture: null,
         });
-        const fileInput = document.getElementById("picture") as HTMLInputElement;
-        if (fileInput) 
-          fileInput.value = ""; // Clear the file input
-        
+        const fileInput = document.getElementById(
+          "picture"
+        ) as HTMLInputElement;
+        if (fileInput) fileInput.value = ""; // Clear the file input
       })
       .catch((error) => {
         alert(`Error submitting form data: ${error}`);
